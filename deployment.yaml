@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: real-time-data-processing-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: real-time-data-processing
+  template:
+    metadata:
+      labels:
+        app: real-time-data-processing
+    spec:
+      containers:
+      - name: real-time-data-processing
+        image: yaminaik/real-time-data-processing:latest
+        ports:
+        - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: real-time-data-processing-service
+spec:
+  selector:
+    app: real-time-data-processing
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8081
+      nodePort: 32000
+  type: NodePort
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: real-time-data-processing-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: real-time-data-processing
+  template:
+    metadata:
+      labels:
+        app: real-time-data-processing
+    spec:
+      containers:
+      - name: real-time-data-processing
+        image: yaminaik/real-time-data-processing:latest
+        ports:
+        - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: real-time-data-processing-service
+spec:
+  selector:
+    app: real-time-data-processing
+  ports:
+    - protocol: TCP
+      port: 80  
+      targetPort: 8081
+  type: NodePort
